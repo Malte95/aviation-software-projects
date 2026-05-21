@@ -25,9 +25,16 @@ def get_input():
         return
     user_input = float(entry.get())
     selected = unit_dropdown.get()
-    my_label.configure(text = user_input)
+    result = convert_input(user_input, selected)
+    my_label.configure(text = result)
     print("Entered:", user_input)
     print("Selected", selected)
+
+# Function to convert the input
+def convert_input(user_input, selected):
+    if selected == "Knots to km/h":
+        result = str(user_input * 1.852) + " km/h"
+        return result
 
 # Add a single action button
 convert_button = ctk.CTkButton(app, text="Convert", command=get_input)
