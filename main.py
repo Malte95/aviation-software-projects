@@ -38,6 +38,9 @@ def convert_input(user_input, selected):
     elif selected == "Feet to meters":
         result = str(user_input * 0.3048) + " m"
         return result
+    elif selected == "Gallons to liters":
+        result = str(user_input * 3.78541) + " L"
+        return result
 
 # Add a single action button
 convert_button = ctk.CTkButton(app, text="Convert", command=get_input)
