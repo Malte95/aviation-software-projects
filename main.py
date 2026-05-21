@@ -35,6 +35,9 @@ def convert_input(user_input, selected):
     if selected == "Knots to km/h":
         result = str(user_input * 1.852) + " km/h"
         return result
+    elif selected == "Feet to meters":
+        result = str(user_input * 0.3048) + " m"
+        return result
 
 # Add a single action button
 convert_button = ctk.CTkButton(app, text="Convert", command=get_input)
