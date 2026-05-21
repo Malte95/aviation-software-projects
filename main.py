@@ -33,13 +33,13 @@ def get_input():
 # Function to convert the input
 def convert_input(user_input, selected):
     if selected == "Knots to km/h":
-        result = str(user_input * 1.852) + " km/h"
+        result = f"{user_input * 1.852:.2f} km/h"
         return result
     elif selected == "Feet to meters":
-        result = str(user_input * 0.3048) + " m"
+        result = f"{user_input * 0.3048:.2f} m"
         return result
     elif selected == "Gallons to liters":
-        result = str(user_input * 3.78541) + " L"
+        result = f"{user_input * 3.78541:.2f} L"
         return result
 
 # Add a single action button
