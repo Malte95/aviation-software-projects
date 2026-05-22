@@ -1,17 +1,28 @@
 import customtkinter as ctk
 
 
-# 1. Set up the appearance and theme
+# Set up the appearance and theme
 ctk.set_appearance_mode("System")  # Adapts to macOS Light or Dark Mode automatically
 ctk.set_default_color_theme("blue") # Color theme for UI elements (blue, green, dark-blue)
 
-# 2. Initialize the main application window
+# Initialize the main application window
 app = ctk.CTk()
 app.title("Aviation Unit Converter") # Title of the window
 app.geometry("400x300")              # Window size: Width x Height in pixels
 
+# Callback function triggered by the dropdown
+def update_placeholder(selected_option):
+    entry.delete(0, ctk.END)
+
+    if selected_option == "Knots to km/h":
+        entry.configure(placeholder_text = "Enter knots")
+    elif selected_option == "Feet to meters":
+        entry.configure(placeholder_text = "Enter feet")
+    elif selected_option == "Gallons to liters":
+        entry.configure(placeholder_text = "Enter gallons")
+
 # Add a dropdown menu for unit selection
-unit_dropdown = ctk.CTkOptionMenu(app, values=["Knots to km/h", "Feet to meters", "Gallons to liters"])
+unit_dropdown = ctk.CTkOptionMenu(app, values=["Knots to km/h", "Feet to meters", "Gallons to liters"], command= update_placeholder)
 unit_dropdown.pack(pady=10)
 
 # Add the entry widget with a placeholder
