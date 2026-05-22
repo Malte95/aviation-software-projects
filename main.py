@@ -20,10 +20,22 @@ entry.pack(pady=20)
 
 # Function to retriev the input
 def get_input():
-    if not entry.get():
-        my_label.configure(text="Please enter a valid number")
+    raw_input = entry.get()
+
+    if not raw_input:
+        my_label.configure(text="Please enter a value")
         return
-    user_input = float(entry.get())
+    if "," in raw_input:
+        my_label.configure(text ="Please use a dot instead of a comma, e.g. 12.5")
+        return
+    try:
+        user_input = float(raw_input)
+    except ValueError:
+        my_label.configure(text = "Please enter a numeric value")
+        return 
+    if user_input < 0:
+        my_label.configure(text = "Please enter a positive value")
+        return
     selected = unit_dropdown.get()
     result = convert_input(user_input, selected)
     my_label.configure(text = result)
