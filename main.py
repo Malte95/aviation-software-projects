@@ -8,11 +8,11 @@ ctk.set_default_color_theme("blue") # Color theme for UI elements (blue, green, 
 # Initialize the main application window
 app = ctk.CTk()
 app.title("Aviation Unit Converter") # Title of the window
-app.geometry("400x300")              # Window size: Width x Height in pixels
+app.geometry("600x400")              # Window size: Width x Height in pixels
 
 # Callback function triggered by the dropdown
 def update_placeholder(selected_option):
-    entry.delete(0, ctk.END)
+    entry.delete(0, "end")
 
     if selected_option == "Knots to km/h":
         entry.configure(placeholder_text = "Enter knots")
@@ -20,6 +20,25 @@ def update_placeholder(selected_option):
         entry.configure(placeholder_text = "Enter feet")
     elif selected_option == "Gallons to liters":
         entry.configure(placeholder_text = "Enter gallons")
+    app.focus_set()
+
+# Add headline
+title_label = ctk.CTkLabel(
+    master= app,
+    text= "Aviation Unit Converter",
+    font=("Arial", 32, "bold"),
+    text_color= "white"
+)
+title_label.pack(pady=(30, 5), padx=5)
+
+# Add description
+subtitle_label = ctk.CTkLabel(
+    master= app,
+    text= "Convert common aviation-related units quickly and accurately",
+    font=("Arial", 15),
+    text_color= "white"
+)
+subtitle_label.pack(pady=(0, 25), padx=25)
 
 # Add a dropdown menu for unit selection
 unit_dropdown = ctk.CTkOptionMenu(app, values=["Knots to km/h", "Feet to meters", "Gallons to liters"], command= update_placeholder)
@@ -34,22 +53,22 @@ def get_input():
     raw_input = entry.get()
 
     if not raw_input:
-        my_label.configure(text="Please enter a value")
+        result_label.configure(text="Please enter a value")
         return
     if "," in raw_input:
-        my_label.configure(text ="Please use a dot instead of a comma, e.g. 12.5")
+        result_label.configure(text ="Please use a dot instead of a comma, e.g. 12.5")
         return
     try:
         user_input = float(raw_input)
     except ValueError:
-        my_label.configure(text = "Please enter a numeric value")
+        result_label.configure(text = "Please enter a numeric value")
         return 
     if user_input < 0:
-        my_label.configure(text = "Please enter a positive value")
+        result_label.configure(text = "Please enter a positive value")
         return
     selected = unit_dropdown.get()
     result = convert_input(user_input, selected)
-    my_label.configure(text = result)
+    result_label.configure(text = result)
     print("Entered:", user_input)
     print("Selected", selected)
 
@@ -70,14 +89,14 @@ convert_button = ctk.CTkButton(app, text="Convert", command=get_input)
 convert_button.pack(pady=15)
 
 # Add label
-my_label = ctk.CTkLabel(
+result_label = ctk.CTkLabel(
     master= app,
     text= "Result",
-    font=("Arial", 20),
+    font=("Arial", 24, "bold"),
     text_color= "white"
 )
-my_label.pack(pady=40, padx=20)
+result_label.pack(pady=(25, 10), padx=20)
 
-# 3. Start the application event loop
+# Start the application event loop
 app.mainloop()
 
