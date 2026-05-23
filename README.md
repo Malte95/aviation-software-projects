@@ -8,7 +8,7 @@ I built this project to strengthen my Python, GUI development, and software engi
 
 ## Screenshot
 
-![App Screenshot](Unit-Converter)
+![App Screenshot](Unit-Converter.png)
 
 ---
 
