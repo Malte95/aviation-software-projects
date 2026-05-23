@@ -36,16 +36,16 @@ subtitle_label = ctk.CTkLabel(
     master= app,
     text= "Convert common aviation-related units quickly and accurately",
     font=("Arial", 15),
-    text_color= "white"
+    text_color= "gray70"
 )
 subtitle_label.pack(pady=(0, 25), padx=25)
 
 # Add a dropdown menu for unit selection
-unit_dropdown = ctk.CTkOptionMenu(app, values=["Knots to km/h", "Feet to meters", "Gallons to liters"], command= update_placeholder)
+unit_dropdown = ctk.CTkOptionMenu(app, values=["Knots to km/h", "Feet to meters", "Gallons to liters"], width=260, command= update_placeholder)
 unit_dropdown.pack(pady=10)
 
 # Add the entry widget with a placeholder
-entry = ctk.CTkEntry(app, placeholder_text= "Enter knots")
+entry = ctk.CTkEntry(app, placeholder_text= "Enter knots", width=260)
 entry.pack(pady=20)
 
 # Function to retriev the input
@@ -53,22 +53,22 @@ def get_input():
     raw_input = entry.get()
 
     if not raw_input:
-        result_label.configure(text="Please enter a value")
+        result_label.configure(text="Please enter a value", text_color = "orange")
         return
     if "," in raw_input:
-        result_label.configure(text ="Please use a dot instead of a comma, e.g. 12.5")
+        result_label.configure(text ="Please use a dot instead of a comma, e.g. 12.5", text_color = "orange")
         return
     try:
         user_input = float(raw_input)
     except ValueError:
-        result_label.configure(text = "Please enter a numeric value")
+        result_label.configure(text = "Please enter a numeric value", text_color = "orange")
         return 
     if user_input < 0:
-        result_label.configure(text = "Please enter a positive value")
+        result_label.configure(text = "Please enter a positive value", text_color = "orange")
         return
     selected = unit_dropdown.get()
     result = convert_input(user_input, selected)
-    result_label.configure(text = result)
+    result_label.configure(text = result, text_color = "white")
     print("Entered:", user_input)
     print("Selected", selected)
 
@@ -85,7 +85,7 @@ def convert_input(user_input, selected):
         return result
 
 # Add a single action button
-convert_button = ctk.CTkButton(app, text="Convert", command=get_input)
+convert_button = ctk.CTkButton(app, text="Convert", width=260, command=get_input)
 convert_button.pack(pady=15)
 
 # Add label
@@ -96,6 +96,15 @@ result_label = ctk.CTkLabel(
     text_color= "white"
 )
 result_label.pack(pady=(25, 10), padx=20)
+
+# Add footer
+footer_label = ctk.CTkLabel(
+    master= app,
+    text= "Built with Python and CustomTkinter",
+    font=("Arial", 12),
+    text_color= "gray60"
+)
+footer_label.pack(pady=(10, 0))
 
 # Start the application event loop
 app.mainloop()
