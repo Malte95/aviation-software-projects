@@ -35,7 +35,7 @@ I built this project to strengthen my Python, GUI development, and software engi
 1. Clone the repository:
 
 ```bash
-git clone <your-repository-url>
+git clone https://github.com/Malte95/aviation-software-projects.git
 ```
 
 2. Navigate into the project folder:
