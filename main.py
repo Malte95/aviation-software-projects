@@ -48,8 +48,8 @@ unit_dropdown.pack(pady=10)
 entry = ctk.CTkEntry(app, placeholder_text= "Enter knots", width=260)
 entry.pack(pady=20)
 
-# Function to retriev the input
-def get_input():
+# Function to handle validation and conversion
+def handle_conversion():
     raw_input = entry.get()
 
     if not raw_input:
@@ -69,8 +69,6 @@ def get_input():
     selected = unit_dropdown.get()
     result = convert_input(user_input, selected)
     result_label.configure(text = result, text_color = "white")
-    print("Entered:", user_input)
-    print("Selected", selected)
 
 # Function to convert the input
 def convert_input(user_input, selected):
@@ -85,10 +83,10 @@ def convert_input(user_input, selected):
         return result
 
 # Add a single action button
-convert_button = ctk.CTkButton(app, text="Convert", width=260, command=get_input)
+convert_button = ctk.CTkButton(app, text="Convert", width=260, command=handle_conversion)
 convert_button.pack(pady=15)
 
-# Add label
+# Add result label
 result_label = ctk.CTkLabel(
     master= app,
     text= "Result",
