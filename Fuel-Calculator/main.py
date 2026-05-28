@@ -7,7 +7,13 @@ def calculate_fuel(weight, distance, wind_strength, wind_direction):
     base_consumption_per_km = 5
     weight_factor = 0.0001
     scaled_weight = weight / 100
+    wind_factor = 0.001
+    wind_effect = wind_strength * wind_factor
     consumption = base_consumption_per_km * distance * ( 1 + scaled_weight * weight_factor)
+    if wind_direction.lower() == "headwind":
+        consumption *= 1 + wind_effect
+    elif wind_direction.lower() == "tailwind":
+        consumption *= 1 - wind_effect
     return consumption
 
 if wind_direction.lower() not in ["headwind", "tailwind"]:
