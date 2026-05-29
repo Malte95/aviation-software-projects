@@ -48,7 +48,7 @@ try:
                 print("Invalid input")
             else:
                 fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft)
-                print(f"Selected aircraft: {selected_aircraft} | Weight: {weight} | Distance: {distance} | Wind strength: {wind_strength} | Wind direction: {wind_direction} | Fuel consumption: {fuel_consumption:.2f} L")
+                print(f"Selected aircraft: {selected_aircraft['name']} | Weight: {weight} | Distance: {distance} | Wind strength: {wind_strength} | Wind direction: {wind_direction} | Fuel consumption: {fuel_consumption:.2f} L")
 except ValueError:
     print("Please enter numeric values only")
 
