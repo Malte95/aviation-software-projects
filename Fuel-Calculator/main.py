@@ -1,5 +1,5 @@
-def calculate_fuel(weight, distance, wind_strength, wind_direction):
-    base_consumption_per_km = 5
+def calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft):
+    base_consumption_per_km = selected_aircraft["base_consumption"]
     weight_factor = 0.0001
     scaled_weight = weight / 100
     wind_factor = 0.001
@@ -47,7 +47,7 @@ try:
             if wind_direction.lower() not in ["headwind", "tailwind"]:
                 print("Invalid input")
             else:
-                fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction)
+                fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft)
                 print(f"Selected aircraft: {selected_aircraft} | Weight: {weight} | Distance: {distance} | Wind strength: {wind_strength} | Wind direction: {wind_direction} | Fuel consumption: {fuel_consumption:.2f} L")
 except ValueError:
     print("Please enter numeric values only")
