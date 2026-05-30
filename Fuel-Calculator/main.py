@@ -1,4 +1,4 @@
-def calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft):
+def calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft, range_utilization):
     base_consumption_per_km = selected_aircraft["base_consumption"]
     weight_factor = 0.0001
     scaled_weight = weight / 100
@@ -46,6 +46,7 @@ try:
         distance = float(input("Enter distance:"))
         wind_strength = float(input("Enter wind strength:"))
         wind_direction = input("Headwind or tailwind: ")
+        range_utilization = (distance / selected_aircraft["range_km"]) * 100
 
         if weight < 0 or distance < 0 or wind_strength < 0:
             print("Please enter a positive number")
@@ -53,17 +54,18 @@ try:
         else:
             if distance > selected_aircraft["range_km"]:
                 print("Warning: Distance exceeds aircraft range")
-                
+
             if wind_direction.lower() not in ["headwind", "tailwind"]:
                 print("Invalid input")
             else:
-                fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft)
+                fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft, range_utilization)
                 print("\n===== FUEL CALCULATION =====")
                 print(f"Aircraft: {selected_aircraft['name']}")
                 print(f"Range: {selected_aircraft['range_km']} km")
                 print(f"Typical passengers: {selected_aircraft['typical_passengers']}")
                 print(f"Weight: {weight} kg")
                 print(f"Distance: {distance} km")
+                print(f"Range utilization: {range_utilization:.2f} %")
                 print(f"Wind: {wind_direction} {wind_strength} km/h")
                 print(f"Estimated fuel consumption: {fuel_consumption:.2f} L")
 except ValueError:
