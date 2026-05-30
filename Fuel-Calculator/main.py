@@ -48,6 +48,13 @@ try:
         wind_direction = input("Headwind or tailwind: ")
         range_utilization = (distance / selected_aircraft["range_km"]) * 100
 
+        if range_utilization < 50:
+            status = "Normal"
+        elif range_utilization < 90:
+            status = "High utilization"
+        else:
+            status = "Near maximum range"
+
         if weight < 0 or distance < 0 or wind_strength < 0:
             print("Please enter a positive number")
         
@@ -66,6 +73,7 @@ try:
                 print(f"Weight: {weight} kg")
                 print(f"Distance: {distance} km")
                 print(f"Range utilization: {range_utilization:.2f} %")
+                print(f"Status: {status}")
                 print(f"Wind: {wind_direction} {wind_strength} km/h")
                 print(f"Estimated fuel consumption: {fuel_consumption:.2f} L")
 except ValueError:
