@@ -14,15 +14,21 @@ try:
     aircrafts = {
     1: {
         "name": "A320",
-        "base_consumption": 4.5
+        "base_consumption": 4.5,
+        "range_km": 6300,
+        "typical_passengers": 150
     },
     2: {
         "name": "A330",
-        "base_consumption": 22.0
+        "base_consumption": 22.0,
+        "range_km": 8200,
+        "typical_passengers": 345
     },
     3: {
         "name": "A350",
-        "base_consumption": 6.0
+        "base_consumption": 6.0,
+        "range_km": 16000,
+        "typical_passengers": 370
     }
 }
     print("Select aircraft:")
@@ -43,13 +49,19 @@ try:
 
         if weight < 0 or distance < 0 or wind_strength < 0:
             print("Please enter a positive number")
+        
         else:
+            if distance > selected_aircraft["range_km"]:
+                print("Warning: Distance exceeds aircraft range")
+                
             if wind_direction.lower() not in ["headwind", "tailwind"]:
                 print("Invalid input")
             else:
                 fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft)
                 print("\n===== FUEL CALCULATION =====")
                 print(f"Aircraft: {selected_aircraft['name']}")
+                print(f"Range: {selected_aircraft['range_km']} km")
+                print(f"Typical passengers: {selected_aircraft['typical_passengers']}")
                 print(f"Weight: {weight} kg")
                 print(f"Distance: {distance} km")
                 print(f"Wind: {wind_direction} {wind_strength} km/h")
