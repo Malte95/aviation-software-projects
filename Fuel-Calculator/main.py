@@ -37,20 +37,47 @@ try:
         "cruise_speed": 900
     }
 }
+    routes = {
+    1: {
+        "origin": "Hamburg-Finkenwerder",
+        "destination": "Toulouse",
+        "distance": 1350
+    },
+    2: {
+        "origin": "Toulouse",
+        "destination": "Getafe",
+        "distance": 650
+    },
+    3: {
+        "origin": "Broughton",
+        "destination": "Toulouse",
+        "distance": 1100
+    }
+}
+
     print("Select aircraft:")
     print("1 - A320")
     print("2 - A330")
     print("3 - A350")
+    
+    print("Select route:")
+    print("1 - Hamburg-Finkenwerder to Toulouse")
+    print("2 - Toulouse to Getafe")
+    print("3 - Broughton to Toulouse")
     aircraft_choice = int(input("Select aircraft: "))
+    route_choice = int(input("Select route: "))
     if aircraft_choice not in aircrafts:
         print("Please select a valid aircraft")
+    elif route_choice not in routes:
+        print("Please select a valid route")
     else:
         selected_aircraft = aircrafts[aircraft_choice]
         weight = float(input("Enter weight:"))
-        distance = float(input("Enter distance:"))
         wind_strength = float(input("Enter wind strength:"))
         wind_direction = input("Headwind or tailwind: ")
         fuel_price_per_liter = float(input("Enter fuel price per liter (€):"))
+        selected_route = routes[route_choice]
+        distance = selected_route["distance"]
         range_utilization = (distance / selected_aircraft["range_km"]) * 100
         flight_time = distance / selected_aircraft["cruise_speed"]
 
@@ -61,7 +88,7 @@ try:
         else:
             status = "Near maximum range"
 
-        if weight < 0 or distance < 0 or wind_strength < 0:
+        if weight < 0 or wind_strength < 0 or fuel_price_per_liter < 0:
             print("Please enter a positive number")
 
         else: 
@@ -83,7 +110,8 @@ try:
                 print(f"Passengers: {selected_aircraft['typical_passengers']}")
                 print(f"Cruise Speed: {selected_aircraft['cruise_speed']} km/h")
                 print(f"Weight: {weight} kg")
-                print(f"Distance: {distance} km")
+                print(f"Route: {selected_route['origin']} to {selected_route['destination']}")
+                print(f"Route Distance: {distance} km")
                 print(f"Flight Time: {flight_time:.2f} h")
                 print(f"Range Utilization: {range_utilization:.2f} %")
                 print(f"Status: {status}")
