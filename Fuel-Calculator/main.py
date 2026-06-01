@@ -50,6 +50,7 @@ try:
         distance = float(input("Enter distance:"))
         wind_strength = float(input("Enter wind strength:"))
         wind_direction = input("Headwind or tailwind: ")
+        fuel_price_per_liter = float(input("Enter fuel price per liter (€):"))
         range_utilization = (distance / selected_aircraft["range_km"]) * 100
         flight_time = distance / selected_aircraft["cruise_speed"]
 
@@ -75,6 +76,7 @@ try:
                 print("Invalid input")
             else:
                 fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft)
+                fuel_cost = fuel_consumption * fuel_price_per_liter
                 print("\n===== FUEL CALCULATION =====")
                 print(f"Aircraft: {selected_aircraft['name']}")
                 print(f"Range: {selected_aircraft['range_km']} km")
@@ -87,6 +89,7 @@ try:
                 print(f"Status: {status}")
                 print(f"Wind: {wind_direction} {wind_strength} km/h")
                 print(f"Fuel Consumption: {fuel_consumption:.2f} L")
+                print(f"Fuel Cost: €{fuel_cost:.2f}")
 except ValueError:
     print("Please enter numeric values only")
 
