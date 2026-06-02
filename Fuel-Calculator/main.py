@@ -69,8 +69,8 @@ def get_range_status(range_utilization):
         return "High utilization"
     else:
         return "Near maximum range"
-try:
 
+def main():
     print("Select aircraft:")
     print("1 - A320")
     print("2 - A330")
@@ -128,6 +128,9 @@ try:
                 print(f"Wind: {wind_direction} {wind_strength} km/h")
                 print(f"Fuel Consumption: {fuel_consumption:.2f} L")
                 print(f"Fuel Cost: €{fuel_cost:.2f}")
+
+try:
+    main()
 except ValueError:
     print("Please enter numeric values only")
 
