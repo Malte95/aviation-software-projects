@@ -1,17 +1,4 @@
-def calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft):
-    base_consumption_per_km = selected_aircraft["base_consumption"]
-    weight_factor = 0.0001
-    scaled_weight = weight / 100
-    wind_factor = 0.001
-    wind_effect = wind_strength * wind_factor
-    consumption = base_consumption_per_km * distance * ( 1 + scaled_weight * weight_factor)
-    if wind_direction.lower() == "headwind":
-        consumption *= 1 + wind_effect
-    elif wind_direction.lower() == "tailwind":
-        consumption *= 1 - wind_effect
-    return consumption
-try:
-    aircrafts = {
+aircrafts = {
     1: {
         "name": "A320",
         "base_consumption": 4.5,
@@ -37,7 +24,7 @@ try:
         "cruise_speed": 900
     }
 }
-    routes = {
+routes = {
     1: {
         "origin": "Hamburg-Finkenwerder",
         "destination": "Toulouse",
@@ -54,6 +41,35 @@ try:
         "distance": 1100
     }
 }
+
+
+def calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft):
+    base_consumption_per_km = selected_aircraft["base_consumption"]
+    weight_factor = 0.0001
+    scaled_weight = weight / 100
+    wind_factor = 0.001
+    wind_effect = wind_strength * wind_factor
+    consumption = base_consumption_per_km * distance * ( 1 + scaled_weight * weight_factor)
+    if wind_direction.lower() == "headwind":
+        consumption *= 1 + wind_effect
+    elif wind_direction.lower() == "tailwind":
+        consumption *= 1 - wind_effect
+    return consumption
+
+def calculate_range_utilization(distance, selected_aircraft):
+    return (distance / selected_aircraft["range_km"]) * 100
+
+def calculate_flight_time(distance, selected_aircraft):
+    return distance / selected_aircraft["cruise_speed"]
+
+def get_range_status(range_utilization):
+    if range_utilization < 50:
+        return "Normal"
+    elif range_utilization < 90:
+        return "High utilization"
+    else:
+        return "Near maximum range"
+try:
 
     print("Select aircraft:")
     print("1 - A320")
@@ -74,19 +90,13 @@ try:
         selected_aircraft = aircrafts[aircraft_choice]
         weight = float(input("Enter weight:"))
         wind_strength = float(input("Enter wind strength:"))
-        wind_direction = input("Headwind or tailwind: ")
+        wind_direction = input("Headwind or tailwind: ").lower()
         fuel_price_per_liter = float(input("Enter fuel price per liter (€):"))
         selected_route = routes[route_choice]
         distance = selected_route["distance"]
-        range_utilization = (distance / selected_aircraft["range_km"]) * 100
-        flight_time = distance / selected_aircraft["cruise_speed"]
-
-        if range_utilization < 50:
-            status = "Normal"
-        elif range_utilization < 90:
-            status = "High utilization"
-        else:
-            status = "Near maximum range"
+        range_utilization = calculate_range_utilization(distance, selected_aircraft)
+        flight_time = calculate_flight_time(distance, selected_aircraft)
+        status = get_range_status(range_utilization)
 
         if weight < 0 or wind_strength < 0 or fuel_price_per_liter < 0:
             print("Please enter a positive number")
@@ -99,7 +109,7 @@ try:
             if distance > selected_aircraft["range_km"]:
                 print("Warning: Distance exceeds aircraft range")
 
-            if wind_direction.lower() not in ["headwind", "tailwind"]:
+            if wind_direction not in ["headwind", "tailwind"]:
                 print("Invalid input")
             else:
                 fuel_consumption = calculate_fuel(weight, distance, wind_strength, wind_direction, selected_aircraft)
