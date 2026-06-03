@@ -5,7 +5,7 @@ ctk.set_default_color_theme("blue")
 
 app = ctk.CTk()
 app.title("Aircraft Fuel Calculator")
-app.geometry("800x750")
+app.geometry("900x800")
 
 aircrafts = {
     "A320": {
@@ -84,7 +84,8 @@ aircraft_label.pack(pady=(20, 5))
 
 aircraft_dropdown = ctk.CTkComboBox(
     app,
-    values=["A320", "A330", "A350"]
+    values=["A320", "A330", "A350"],
+    width=300
 )
 aircraft_dropdown.pack()
 
@@ -96,7 +97,8 @@ weight_label.pack(pady=(20,5))
 
 weight_entry = ctk.CTkEntry(
     app,
-    placeholder_text="Enter weight in kg"
+    placeholder_text="Enter weight in kg",
+    width=300
 )
 weight_entry.pack()
 
@@ -112,7 +114,8 @@ route_dropdown = ctk.CTkComboBox(
         "Hamburg-Finkenwerder → Toulouse",
         "Toulouse → Getafe",
         "Broughton → Toulouse"
-    ]
+    ],
+    width=300
 )
 route_dropdown.pack()
 
@@ -124,7 +127,8 @@ wind_label.pack(pady=(20, 5))
 
 wind_entry = ctk.CTkEntry(
     app,
-    placeholder_text="Enter wind strength"
+    placeholder_text="Enter wind strength",
+    width=300
 )
 wind_entry.pack()
 
@@ -136,7 +140,8 @@ fuel_price_label.pack(pady=(20, 5))
 
 fuel_price_entry = ctk.CTkEntry(
     app,
-    placeholder_text="Enter fuel price"
+    placeholder_text="Enter fuel price",
+    width=300
 )
 fuel_price_entry.pack()
 
@@ -148,7 +153,8 @@ wind_direction_label.pack(pady=(20, 5))
 
 wind_direction_dropdown = ctk.CTkComboBox(
     app,
-    values=["headwind", "tailwind"]
+    values=["headwind", "tailwind"],
+    width=300
 )
 wind_direction_dropdown.pack()
 
@@ -192,7 +198,6 @@ def handle_calculation():
         )
 
         fuel_cost = fuel_consumption * fuel_price
-        fuel_cost = fuel_consumption * fuel_price
         flight_time = distance / selected_aircraft["cruise_speed"]
         range_utilization = (distance / selected_aircraft["range_km"]) * 100
 
@@ -206,21 +211,20 @@ def handle_calculation():
         warning_text = "\n".join(warnings)
 
         result_label.configure(
-            text=f"""
-            Aircraft: {aircraft}
-            
-            Route: {selected_route['origin']} → {selected_route['destination']}
-            Route Distance: {distance} km
+            text=f"""Aircraft: {aircraft}
 
-            Flight Time: {flight_time:.2f} h
-            Range Utilization: {range_utilization:.2f} %
-            Status: {status}
+Route: {selected_route['origin']} → {selected_route['destination']}
+Route Distance: {distance} km
 
-            Fuel Consumption: {fuel_consumption:.2f} L
-            Fuel Cost: €{fuel_cost:.2f}
+Flight Time: {flight_time:.2f} h
+Range Utilization: {range_utilization:.2f} %
+Status: {status}
 
-            {warning_text}
-            """
+Fuel Consumption: {fuel_consumption:.2f} L
+Fuel Cost: €{fuel_cost:.2f}
+
+{warning_text}
+"""
             )
 
     except ValueError:
@@ -235,11 +239,26 @@ calculate_button = ctk.CTkButton(
 )
 calculate_button.pack(pady=25)
 
-result_label = ctk.CTkLabel(
+result_frame = ctk.CTkFrame(
     app,
-    text="Result will appear here",
-    font=("Arial", 16)
+    corner_radius=12
 )
-result_label.pack(pady=10)
+result_frame.pack(pady=20, padx=30, fill="x")
+
+result_title = ctk.CTkLabel(
+    result_frame,
+    text="Flight Report",
+    font=("Arial", 18, "bold")
+)
+result_title.pack(pady=(10, 5))
+
+result_label = ctk.CTkLabel(
+    result_frame,
+    text="Result will appear here",
+    font=("Arial", 14),
+    justify= "left",
+    anchor="w"
+)
+result_label.pack(pady=15, padx=20)
 
 app.mainloop()
