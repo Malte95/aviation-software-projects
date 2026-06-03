@@ -171,6 +171,18 @@ def handle_calculation():
         selected_route = routes[route]
         distance = selected_route["distance"]
 
+        warnings = []
+
+        if weight > selected_aircraft["max_takeoff_weight"]:
+            warnings.append(
+                "Warning: Weight exceeds maximum takeoff weight"
+            )
+
+        if distance > selected_aircraft["range_km"]:
+            warnings.append(
+                "Warning: Distance exceeds aircraft range"
+            )
+
         fuel_consumption = calculate_fuel(
             weight,
             distance,
@@ -180,15 +192,41 @@ def handle_calculation():
         )
 
         fuel_cost = fuel_consumption * fuel_price
+        fuel_cost = fuel_consumption * fuel_price
+        flight_time = distance / selected_aircraft["cruise_speed"]
+        range_utilization = (distance / selected_aircraft["range_km"]) * 100
+
+        if range_utilization < 50:
+            status = "Normal"
+        elif range_utilization < 90:
+            status = "High utilization"
+        else:
+            status = "Near maximum range"
+
+        warning_text = "\n".join(warnings)
 
         result_label.configure(
-            text=f"Fuel Consumption: {fuel_consumption:.2f} L\nFuel Cost: €{fuel_cost:.2f}"
-        )
+            text=f"""
+            Aircraft: {aircraft}
+            
+            Route: {selected_route['origin']} → {selected_route['destination']}
+            Route Distance: {distance} km
+
+            Flight Time: {flight_time:.2f} h
+            Range Utilization: {range_utilization:.2f} %
+            Status: {status}
+
+            Fuel Consumption: {fuel_consumption:.2f} L
+            Fuel Cost: €{fuel_cost:.2f}
+
+            {warning_text}
+            """
+            )
 
     except ValueError:
         result_label.configure(
             text="Please enter valid numeric values."
-        )
+    )
 
 calculate_button = ctk.CTkButton(
     app,
