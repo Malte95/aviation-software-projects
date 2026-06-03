@@ -153,30 +153,42 @@ wind_direction_dropdown = ctk.CTkComboBox(
 wind_direction_dropdown.pack()
 
 def handle_calculation():
-    aircraft = aircraft_dropdown.get()
-    weight = float(weight_entry.get())
-    route = route_dropdown.get()
-    wind_strength = float(wind_entry.get())
-    fuel_price = float(fuel_price_entry.get())
-    wind_direction = wind_direction_dropdown.get()
+    try:
+        aircraft = aircraft_dropdown.get()
+        route = route_dropdown.get()
+        weight = float(weight_entry.get())
+        wind_strength = float(wind_entry.get())
+        fuel_price = float(fuel_price_entry.get())
+        wind_direction = wind_direction_dropdown.get()
 
-    selected_aircraft = aircrafts[aircraft]
-    selected_route = routes[route]
-    distance = selected_route["distance"]
+        if weight < 0 or wind_strength < 0 or fuel_price < 0:
+            result_label.configure(
+                text="Please enter positive values only."
+            )
+            return
 
-    fuel_consumption = calculate_fuel(
-        weight,
-        distance,
-        wind_strength,
-        wind_direction,
-        selected_aircraft
-    )
+        selected_aircraft = aircrafts[aircraft]
+        selected_route = routes[route]
+        distance = selected_route["distance"]
 
-    fuel_cost = fuel_consumption * fuel_price
+        fuel_consumption = calculate_fuel(
+            weight,
+            distance,
+            wind_strength,
+            wind_direction,
+            selected_aircraft
+        )
 
-    result_label.configure(
-        text=f"Fuel Consumption: {fuel_consumption:.2f} L\nFuel Cost: €{fuel_cost:.2f}"
-    )
+        fuel_cost = fuel_consumption * fuel_price
+
+        result_label.configure(
+            text=f"Fuel Consumption: {fuel_consumption:.2f} L\nFuel Cost: €{fuel_cost:.2f}"
+        )
+
+    except ValueError:
+        result_label.configure(
+            text="Please enter valid numeric values."
+        )
 
 calculate_button = ctk.CTkButton(
     app,
