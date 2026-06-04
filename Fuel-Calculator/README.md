@@ -2,25 +2,51 @@
 
 ## Description
 
-A Python application that calculates aircraft fuel consumption based on aircraft type, weight, distance, and wind conditions.
+Aircraft Fuel Calculator is a Python desktop application that estimates fuel consumption and fuel costs for different Airbus aircraft types based on route, aircraft weight, and wind conditions.
+
+The application features a graphical user interface built with CustomTkinter and includes Airbus production and transport routes.
 
 ## Features
 
-* Aircraft selection
-* Weight input
-* Distance input
-* Wind strength input
-* Wind direction support (headwind/tailwind)
+* Airbus A320, A330, and A350 support
+* Airbus production route selection
+* Automatic route distance calculation
+* Fuel consumption estimation
+* Fuel cost calculation
+* Flight time estimation
+* Range utilization analysis
+* Flight status evaluation
+* Maximum takeoff weight warning system
 * Input validation
 * Error handling with try/except
+* CustomTkinter graphical user interface
 
 ## Technologies
 
 * Python 3
+* CustomTkinter
+* PyInstaller
+* Git & GitHub
 
-## Planned Improvements
+## Example Routes
 
-* GUI with CustomTkinter
-* Additional aircraft types
-* More realistic fuel consumption data
-* Improved flight and weather modeling
+* Hamburg-Finkenwerder → Toulouse
+* Toulouse → Getafe
+* Broughton → Toulouse
+
+## Screenshots
+
+![Aircraft Fuel Calculator](screenshot.png)
+
+## Future Improvements
+
+* Additional Airbus aircraft types
+* More realistic fuel consumption models
+* Weather integration
+* Airport database
+* Route planning features
+
+## Author
+
+Malte Scherenberg
+
