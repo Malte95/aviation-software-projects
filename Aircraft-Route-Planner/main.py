@@ -30,4 +30,17 @@ mobile = Location(
 
 print(hamburg.show_details())
 
+class Graph:
+    def __init__(self):
+        self.locations = {}
+        self.adjacency_list = {}
+
+    def add_location(self, location):
+        if location.name in self.locations:
+            return "Location already exists."
+        else:
+            self.locations[location.name] = location
+            self.adjacency_list[location.name] = {}
+            return f"{location.name} added successfully."
+        
 
