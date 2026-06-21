@@ -42,5 +42,17 @@ class Graph:
             self.locations[location.name] = location
             self.adjacency_list[location.name] = {}
             return f"{location.name} added successfully."
+
+    def add_connection(self, start, destination, distance):
+        if start in self.locations and destination in self.locations:
+            if destination in self.adjacency_list[start]:
+                return "Connection already exists."
+            else:
+                self.adjacency_list[start][destination] = distance
+                self.adjacency_list[destination][start] = distance
+                return "Connection added successfully."
+        else:
+            return "One or both locations do not exist."
+
         
 
