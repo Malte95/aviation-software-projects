@@ -54,5 +54,8 @@ class Graph:
         else:
             return "One or both locations do not exist."
 
+    def show_all_locations(self):
+        return "Available Locations\n\n" + "\n".join(self.locations.keys())
+
         
 
