@@ -57,5 +57,17 @@ class Graph:
     def show_all_locations(self):
         return "Available Locations\n\n" + "\n".join(self.locations.keys())
 
+    def show_neighbors(self, location_name):
+        if location_name in self.locations:
+            neighbor_lines = []
+
+            for neighbor, distance in self.adjacency_list[location_name].items():
+                neighbor_lines.append(f"{neighbor} ({distance} km)")
+
+        else:
+            return "Location does not exist."
+        
+        return f"Neighbors of {location_name}\n\n" + "\n".join(neighbor_lines)
+
         
 
