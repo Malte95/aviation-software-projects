@@ -69,5 +69,53 @@ class Graph:
         
         return f"Neighbors of {location_name}\n\n" + "\n".join(neighbor_lines)
 
+    def route_exists(self, start, destination):
+        if start in self.locations and destination in self.locations:
+            queue = [start]
+            visited = [start]
+
+            while queue:
+                current_location = queue.pop(0)
+
+                if current_location == destination:
+                    return "Route exists."
+
+                for neighbor in self.adjacency_list[current_location].keys():
+                    if neighbor not in visited:
+                        visited.append(neighbor)
+                        queue.append(neighbor)
+            return "Route does not exist."
+
+        else:
+            return "One or both locations do not exist."
+
+graph = Graph()
+
+print(graph.add_location(hamburg))
+print(graph.add_location(toulouse))
+print(graph.add_location(mobile))
+
+print(
+    graph.add_connection(
+        "Hamburg-Finkenwerder",
+        "Toulouse",
+        1272
+    )
+)
+
+print(
+    graph.route_exists(
+        "Hamburg-Finkenwerder",
+        "Toulouse"
+    )
+)
+
+print(
+    graph.route_exists(
+        "Hamburg-Finkenwerder",
+        "Mobile"
+    )
+)
+
         
 
