@@ -28,7 +28,6 @@ mobile = Location(
     "Final Assembly Line"
 )
 
-print(hamburg.show_details())
 
 class Graph:
     def __init__(self):
@@ -89,33 +88,62 @@ class Graph:
         else:
             return "One or both locations do not exist."
 
+    def shortest_route(self, start, destination):
+        if start in self.locations and destination in self.locations:
+            distances = {}
+            visited = []
+
+            for location in self.locations.keys():
+                distances[location] = float("inf")
+
+            distances[start] = 0
+
+            smallest_distance = float("inf")
+            current_location = None
+
+            for location in self.locations:
+                if location not in visited and distances[location] < smallest_distance:
+                    smallest_distance = distances[location]
+                    current_location = location
+           
+            print(current_location)
+
+            visited.append(current_location)
+            print(self.adjacency_list[current_location])
+
+            for neighbor, distance in self.adjacency_list[current_location].items():
+                new_distance = distances[current_location] + distance
+
+                if new_distance < distances[neighbor]:
+                    distances[neighbor] = new_distance 
+
+            print(visited)
+
+            print(distances)
+        
+        else:
+            return "One or both locations do not exist."
+
+print(hamburg.show_details())
+
 graph = Graph()
 
-print(graph.add_location(hamburg))
-print(graph.add_location(toulouse))
-print(graph.add_location(mobile))
+graph.add_location(hamburg)
+graph.add_location(toulouse)
+graph.add_location(mobile)
 
-print(
-    graph.add_connection(
-        "Hamburg-Finkenwerder",
-        "Toulouse",
-        1272
-    )
+graph.add_connection(
+    "Hamburg-Finkenwerder",
+    "Toulouse",
+    1272
 )
 
-print(
-    graph.route_exists(
-        "Hamburg-Finkenwerder",
-        "Toulouse"
-    )
+graph.shortest_route(
+    "Hamburg-Finkenwerder",
+    "Mobile"
 )
 
-print(
-    graph.route_exists(
-        "Hamburg-Finkenwerder",
-        "Mobile"
-    )
-)
+
 
         
 
