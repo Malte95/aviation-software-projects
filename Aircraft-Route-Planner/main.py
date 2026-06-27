@@ -92,6 +92,7 @@ class Graph:
         if start in self.locations and destination in self.locations:
             distances = {}
             visited = []
+            previous_locations = {}
 
             for location in self.locations.keys():
                 distances[location] = float("inf")
@@ -115,8 +116,25 @@ class Graph:
 
                     if new_distance < distances[neighbor]:
                         distances[neighbor] = new_distance 
+                        previous_locations[neighbor] = current_location
 
-            return f"Shortest distance from {start} to {destination}: {distances[destination]} km"
+
+            route = [destination]
+            current = destination
+
+            while current != start:
+                current = previous_locations[current]
+                route.append(current)
+                
+            route.reverse()
+
+            route_text = " -> ".join(route)
+
+            return (
+                "Shortest Route\n\n"
+                f"{route_text}\n\n"
+                f"Total Distance: {distances[destination]} km"
+            )
         
         else:
             return "One or both locations do not exist."
