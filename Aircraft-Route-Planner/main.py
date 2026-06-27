@@ -97,29 +97,26 @@ class Graph:
                 distances[location] = float("inf")
 
             distances[start] = 0
+        
+            while len(visited) < len(self.locations):
 
-            smallest_distance = float("inf")
-            current_location = None
+                smallest_distance = float("inf")
+                current_location = None
 
-            for location in self.locations:
-                if location not in visited and distances[location] < smallest_distance:
-                    smallest_distance = distances[location]
-                    current_location = location
+                for location in self.locations:
+                    if location not in visited and distances[location] < smallest_distance:
+                        smallest_distance = distances[location]
+                        current_location = location
            
-            print(current_location)
+                visited.append(current_location)
+                
+                for neighbor, distance in self.adjacency_list[current_location].items():
+                    new_distance = distances[current_location] + distance
 
-            visited.append(current_location)
-            print(self.adjacency_list[current_location])
+                    if new_distance < distances[neighbor]:
+                        distances[neighbor] = new_distance 
 
-            for neighbor, distance in self.adjacency_list[current_location].items():
-                new_distance = distances[current_location] + distance
-
-                if new_distance < distances[neighbor]:
-                    distances[neighbor] = new_distance 
-
-            print(visited)
-
-            print(distances)
+            return f"Shortest distance from {start} to {destination}: {distances[destination]} km"
         
         else:
             return "One or both locations do not exist."
@@ -138,10 +135,20 @@ graph.add_connection(
     1272
 )
 
-graph.shortest_route(
-    "Hamburg-Finkenwerder",
-    "Mobile"
+graph.add_connection(
+    "Toulouse",
+    "Mobile",
+    6160
 )
+
+print(
+    graph.shortest_route(
+        "Hamburg-Finkenwerder",
+        "Mobile"
+    )
+)
+
+
 
 
 
