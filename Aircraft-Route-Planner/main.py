@@ -28,6 +28,43 @@ mobile = Location(
     "Final Assembly Line"
 )
 
+bremen = Location(
+    "Bremen",
+    "Germany",
+    "Wing Equipment Center"
+)
+
+stade = Location(
+    "Stade",
+    "Germany",
+    "Composite Structures"
+)
+
+broughton = Location(
+    "Broughton",
+    "United Kingdom",
+    "Wing Manufacturing"
+)
+
+getafe = Location(
+    "Getafe",
+    "Spain",
+    "Aircraft Structures"
+)
+
+filton = Location(
+    "Filton",
+    "United Kingdom",
+    "Engineering and Design"
+)
+
+test_site = Location(
+    "Test Site",
+    "Germany",
+    "Test Location"
+)
+
+
 
 class Graph:
     def __init__(self):
@@ -108,6 +145,8 @@ class Graph:
                     if location not in visited and distances[location] < smallest_distance:
                         smallest_distance = distances[location]
                         current_location = location
+                if current_location is None:
+                    break
            
                 visited.append(current_location)
                 
@@ -117,6 +156,9 @@ class Graph:
                     if new_distance < distances[neighbor]:
                         distances[neighbor] = new_distance 
                         previous_locations[neighbor] = current_location
+            
+            if distances[destination] == float("inf"):
+                return "Route does not exist."
 
 
             route = [destination]
@@ -146,18 +188,25 @@ graph = Graph()
 graph.add_location(hamburg)
 graph.add_location(toulouse)
 graph.add_location(mobile)
+graph.add_location(bremen)
+graph.add_location(stade)
+graph.add_location(broughton)
+graph.add_location(getafe)
+graph.add_location(filton)
+graph.add_location(test_site)
 
-graph.add_connection(
-    "Hamburg-Finkenwerder",
-    "Toulouse",
-    1272
-)
+graph.add_connection("Filton", "Broughton", 250)
+graph.add_connection("Broughton", "Hamburg-Finkenwerder", 950)
+graph.add_connection("Broughton", "Toulouse", 1250)
+graph.add_connection("Bremen", "Hamburg-Finkenwerder", 120)
+graph.add_connection("Stade", "Hamburg-Finkenwerder", 40)
+graph.add_connection("Getafe", "Toulouse", 700)
+graph.add_connection("Hamburg-Finkenwerder", "Toulouse", 1272)
+graph.add_connection("Toulouse", "Mobile", 6160)
 
-graph.add_connection(
-    "Toulouse",
-    "Mobile",
-    6160
-)
+print(graph.show_neighbors("Hamburg-Finkenwerder"))
+print(graph.show_neighbors("Broughton"))
+print(graph.shortest_route("Filton", "Mobile"))
 
 print(
     graph.shortest_route(
@@ -165,6 +214,15 @@ print(
         "Mobile"
     )
 )
+
+print(
+    graph.shortest_route(
+        "Hamburg-Finkenwerder",
+        "Test Site"
+    )
+)
+
+
 
 
 
