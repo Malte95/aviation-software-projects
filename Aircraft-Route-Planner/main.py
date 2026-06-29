@@ -1,3 +1,7 @@
+import tkinter as tk
+from tkinter import ttk
+
+
 class Location:
     def __init__(self, name, country, site_type):
         self.name = name
@@ -222,6 +226,45 @@ print(
     )
 )
 
+window = tk.Tk()
+
+window.geometry("600x400")
+window.title("Aircraft Route Planner")
+window.configure(padx=20, pady=20)
+
+title_label = tk.Label(window, text= "Aircraft Route Planner", font=("Arial", 16, "bold"))
+title_label.pack(pady=10)
+
+start_label = tk.Label(window, text= "Start Location:")
+start_label.pack()
+
+start_dropdown = ttk.Combobox(window, values=list(graph.locations.keys()))
+start_dropdown.pack(pady=5)
+
+destination_label = tk.Label(window, text= "Destination:")
+destination_label.pack(pady=5)
+
+destination_dropdown = ttk.Combobox(window, values=list(graph.locations.keys()))
+destination_dropdown.pack()
+
+start_dropdown.current(0)
+destination_dropdown.current(1)
+
+def find_route():
+    start = start_dropdown.get()
+    destination = destination_dropdown.get()
+
+    result = graph.shortest_route(start, destination)
+
+    result_label.config(text=result)
+
+find_route_button = tk.Button(window, text="Find Shortest Route", command=find_route)
+find_route_button.pack(pady=15)
+
+result_label = tk.Label(window, text="", justify="left", font=("Arial", 11))
+result_label.pack(pady=10)
+
+window.mainloop()
 
 
 
