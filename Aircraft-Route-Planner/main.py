@@ -185,8 +185,6 @@ class Graph:
         else:
             return "One or both locations do not exist."
 
-print(hamburg.show_details())
-
 graph = Graph()
 
 graph.add_location(hamburg)
@@ -208,23 +206,6 @@ graph.add_connection("Getafe", "Toulouse", 700)
 graph.add_connection("Hamburg-Finkenwerder", "Toulouse", 1272)
 graph.add_connection("Toulouse", "Mobile", 6160)
 
-print(graph.show_neighbors("Hamburg-Finkenwerder"))
-print(graph.show_neighbors("Broughton"))
-print(graph.shortest_route("Filton", "Mobile"))
-
-print(
-    graph.shortest_route(
-        "Hamburg-Finkenwerder",
-        "Mobile"
-    )
-)
-
-print(
-    graph.shortest_route(
-        "Hamburg-Finkenwerder",
-        "Test Site"
-    )
-)
 
 window = tk.Tk()
 
@@ -238,17 +219,66 @@ title_label.pack(pady=10)
 start_label = tk.Label(window, text= "Start Location:")
 start_label.pack()
 
-start_dropdown = ttk.Combobox(window, values=list(graph.locations.keys()))
+start_dropdown = ttk.Combobox(window, values=list(graph.locations.keys()), state="readonly")
 start_dropdown.pack(pady=5)
 
 destination_label = tk.Label(window, text= "Destination:")
 destination_label.pack(pady=5)
 
-destination_dropdown = ttk.Combobox(window, values=list(graph.locations.keys()))
+destination_dropdown = ttk.Combobox(window, values=list(graph.locations.keys()), state="readonly")
 destination_dropdown.pack()
 
 start_dropdown.current(0)
 destination_dropdown.current(1)
+
+tk.Label(window, text="Location Name:").pack()
+name_entry = tk.Entry(window)
+name_entry.pack(pady=2)
+
+tk.Label(window, text="Country:").pack()
+country_entry = tk.Entry(window)
+country_entry.pack(pady=2)
+
+tk.Label(window, text="Site Type:").pack()
+type_entry = tk.Entry(window)
+type_entry.pack(pady=2)
+
+tk.Label(window, text="Connect to:").pack()
+connect_dropdown = ttk.Combobox(window, values=list(graph.locations.keys()), state="readonly")
+connect_dropdown.pack(pady=2)
+
+tk.Label(window, text="Distance in km:").pack()
+distance_entry = tk.Entry(window)
+distance_entry.pack(pady=2)
+
+def add_new_location():
+    name = name_entry.get()
+    country = country_entry.get()
+    site_type = type_entry.get()
+    connect_to = connect_dropdown.get()
+    distance = distance_entry.get()
+
+    if not name or not country or not site_type or not connect_to or not distance:
+        result_label.config(text="Please fill in all fields.")
+        return
+
+    new_location = Location(name, country, site_type)
+    result = graph.add_location(new_location)
+
+    connection_result = graph.add_connection(name,connect_to,int(distance))
+
+    name_entry.delete(0, tk.END)
+    country_entry.delete(0, tk.END)
+    type_entry.delete(0, tk.END)
+
+    distance_entry.delete(0, tk.END)
+
+    location_values = list(graph.locations.keys())
+    start_dropdown["values"] = location_values
+    destination_dropdown["values"] = location_values
+    connect_dropdown["values"] = location_values
+
+    result_label.config(text=f"{result}\n{connection_result}")
 
 def find_route():
     start = start_dropdown.get()
@@ -257,6 +287,9 @@ def find_route():
     result = graph.shortest_route(start, destination)
 
     result_label.config(text=result)
+
+add_location_button = tk.Button(window,text="Add Location",command=add_new_location)
+add_location_button.pack(pady=10)
 
 find_route_button = tk.Button(window, text="Find Shortest Route", command=find_route)
 find_route_button.pack(pady=15)
